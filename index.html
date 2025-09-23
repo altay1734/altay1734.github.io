@@ -1,0 +1,1120 @@
+<!DOCTYPE html><html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BREWKITCHEN - Гастробар</title>
+  <style>
+    body {margin:0; font-family: 'Segoe UI', sans-serif; background:#111; color:#eee; scroll-behavior:smooth;}
+    header {position:fixed; top:0; width:100%; background:#000a; backdrop-filter: blur(6px); display:flex; justify-content:center; gap:2rem; padding:1rem; z-index:10;}
+    header a {color:#eee; text-decoration:none; font-weight:bold; transition:0.3s;}
+    header a:hover {color:#f39c12;}
+    section {min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:4rem 2rem;}
+    .hero {background:url('img/background.jpg') center/cover no-repeat; color:white; text-align:center;}
+    .hero h1 {font-size:3rem; text-shadow:0 0 10px #000;}
+    .btn {background:#f39c12; color:#111; padding:0.8rem 1.5rem; border-radius:30px; text-decoration:none; font-weight:bold; transition:0.3s;}
+    .btn:hover {background:#fff; color:#000;}
+    .grid {display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); width:100%; max-width:1000px;}
+    .card {background:#222; padding:1rem; border-radius:15px; text-align:center; transition:0.3s;}
+    .card:hover {transform:translateY(-5px); background:#333;}
+    form {display:flex; flex-direction:column; gap:0.3rem; width:100%; max-width:400px;}
+    input, textarea {padding:0.7rem; border:none; border-radius:8px;}
+    button {background:#f39c12; border:none; padding:0.8rem; border-radius:30px; font-weight:bold; cursor:pointer; transition:0.3s;}
+    button:hover {background:#fff; color:#000;}
+    footer {background:#000; text-align:center; padding:1rem; color:#777;}
+    
+    /* Специальные стили для секции бронирования */
+    #reserve {
+      padding: 60px 20px;
+      background: #111;
+    }
+    #reserve p {
+      margin-bottom: 0.3rem;
+    }
+    #reserve .radio-group {
+      margin: 0.2rem 0;
+    }
+    #reserve .radio-group p {
+      margin-bottom: 0.1rem;
+    }
+
+    /* Стили для меню */
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .menu-tab {
+      background: #222;
+      color: #eee;
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      border: none;
+      font-weight: bold;
+    }
+    .menu-tab.active {
+      background: #f39c12;
+      color: #111;
+    }
+    .menu-tab:hover {
+      background: #333;
+    }
+    .menu-tab.active:hover {
+      background: #fff;
+    }
+    .menu-content {
+      display: none;
+      max-width: 1000px;
+      width: 100%;
+    }
+    .menu-content.active {
+      display: block;
+    }
+    .menu-category {
+      background: #222;
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .menu-category h3 {
+      color: #f39c12;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      text-align: center;
+      border-bottom: 2px solid #f39c12;
+      padding-bottom: 0.5rem;
+    }
+    .menu-items {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 1rem;
+      background: #333;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+    .menu-item:hover {
+      background: #444;
+      transform: translateY(-2px);
+    }
+    .item-info {
+      flex: 1;
+    }
+    .item-name {
+      font-weight: bold;
+      color: #f39c12;
+      margin-bottom: 0.5rem;
+    }
+    .item-description {
+      font-size: 0.9rem;
+      color: #ccc;
+      line-height: 1.3;
+    }
+    .item-price {
+      font-weight: bold;
+      color: #fff;
+      font-size: 1.1rem;
+      margin-left: 1rem;
+      white-space: nowrap;
+    }
+
+    /* Стили для акций */
+    .promo-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      max-width: 1000px;
+      width: 100%;
+    }
+    .promo-card {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      color: #111;
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      transition: 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .promo-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .promo-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .promo-card p {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#home">Главная</a>
+    <a href="#menu">Меню</a>
+    <a href="#promos">Акции</a>
+    <a href="#banquets">Банкеты</a>
+    <a href="#reserve">Бронирование/Контакты</a>
+  </header>
+
+  <section id="home" class="hero">
+    <h1>Добро пожаловать в гастробар BREWKITCHEN</h1>
+    <p>Еда, напитки и атмосфера, которые стоит попробовать</p>
+    <a href="#reserve" class="btn">Забронировать стол</a>
+  </section>
+
+  <section id="menu">
+    <h2>Меню</h2>
+    
+    <div class="menu-tabs">
+      <button class="menu-tab active" onclick="showMenu('lunch')">Ланчи</button>
+      <button class="menu-tab" onclick="showMenu('main')">Основное меню</button>
+      <button class="menu-tab" onclick="showMenu('pizza')">Пицца</button>
+      <button class="menu-tab" onclick="showMenu('pasta')">Паста</button>
+      <button class="menu-tab" onclick="showMenu('bar')">Барная карта</button>
+    <!-- Пицца -->
+    <div id="pizza" class="menu-content">
+      <div class="menu-category">
+        <h3>ПИЦЦА 33 СМ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца с морепродуктами</div>
+              <div class="item-description">Чесночное масло, мясо мидии, креветки, кальмар, осьминог, лук красный, руккола (450гр)</div>
+            </div>
+            <div class="item-price">1200₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца с креветками и песто</div>
+              <div class="item-description">Сыр моцарелла, соус песто, креветки, руккола (430гр)</div>
+            </div>
+            <div class="item-price">1200₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца Фирменная Брю Китчен</div>
+              <div class="item-description">Сыр маскарпоне, копчёный лосось, сливки, черри, руккола (430гр)</div>
+            </div>
+            <div class="item-price">999₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца 4 сыра</div>
+              <div class="item-description">Сыр моцарелла, сыр дорблю, пармезан, чеддер, сливки (400гр)</div>
+            </div>
+            <div class="item-price">890₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца Карбонара</div>
+              <div class="item-description">Сыр моцарелла, бекон, сливки, пармезан, яйцо (450гр)</div>
+            </div>
+            <div class="item-price">870₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца клубника-маскарпоне</div>
+              <div class="item-description">(430гр)</div>
+            </div>
+            <div class="item-price">850₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца банан-нутелла</div>
+              <div class="item-description">(430гр)</div>
+            </div>
+            <div class="item-price">850₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Деревенская пицца</div>
+              <div class="item-description">Сыр моцарелла, куриное филе, говядина, лук красный (520гр)</div>
+            </div>
+            <div class="item-price">820₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца вегетарианская</div>
+              <div class="item-description">Сыр моцарелла, перец болгарский, лук красный, томаты, базилик (490гр)</div>
+            </div>
+            <div class="item-price">820₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца цезарь</div>
+              <div class="item-description">Сыр моцарелла, салат айсберг, черри, куриное филе, пармезан, сливки (480гр)</div>
+            </div>
+            <div class="item-price">790₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца BBQ</div>
+              <div class="item-description">Сыр моцарелла, соус барбекю, колбаски венские, бекон (430гр)</div>
+            </div>
+            <div class="item-price">790₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца ветчина грибы</div>
+              <div class="item-description">Сыр моцарелла, шампиньоны, ветчина (490гр)</div>
+            </div>
+            <div class="item-price">790₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца гавайская</div>
+              <div class="item-description">Сыр моцарелла, ананас, ветчина, сливки (430гр)</div>
+            </div>
+            <div class="item-price">790₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца пепперони</div>
+              <div class="item-description">Сыр моцарелла, пеперони (480гр)</div>
+            </div>
+            <div class="item-price">750₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пицца маргарита</div>
+              <div class="item-description">Сыр моцарелла, томаты (450гр)</div>
+            </div>
+            <div class="item-price">590₽</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Паста -->
+    <div id="pasta" class="menu-content">
+      <div class="menu-category">
+        <h3>ДОМАШНЯЯ ПАСТА СОБСТВЕННОГО ПРИГОТОВЛЕНИЯ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста с морепродуктами</div>
+              <div class="item-description">Креветки, осьминог, мидии, кальмар, пармезан, соус песто, сливки, томаты черри (270гр)</div>
+            </div>
+            <div class="item-price">790₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста с Говядиной</div>
+              <div class="item-description">Вырезка говяжья, сливки, соус демиглас, лук репчатый, перец болгарский, чеснок, пармезан (350гр)</div>
+            </div>
+            <div class="item-price">760₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста с креветками и грибами</div>
+              <div class="item-description">Креветки, шампиньоны, пармезан, сладкий чили, сливки (270гр)</div>
+            </div>
+            <div class="item-price">730₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Ризотто с грибами</div>
+              <div class="item-description">Рис арборио, грибы, сливки, пармезан, масло трюфельное, соус демиглас (300гр)</div>
+            </div>
+            <div class="item-price">650₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста с лососем и брокколи</div>
+              <div class="item-description">Лосось, брокколи, сливки, пармезан (285гр)</div>
+            </div>
+            <div class="item-price">650₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста Болоньезе</div>
+              <div class="item-description">Фарш говяжий, пармезан, томатная паста, лук, морковь (295гр)</div>
+            </div>
+            <div class="item-price">630₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста чикен карри</div>
+              <div class="item-description">Куриное филе, шампиньоны, карри молотый, пармезан, перец молотый, сливки (270гр)</div>
+            </div>
+            <div class="item-price">600₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста карбонара</div>
+              <div class="item-description">Бекон, сливки, пармезан, желток куриный (350гр)</div>
+            </div>
+            <div class="item-price">550₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Спагетти карбонара</div>
+              <div class="item-description">Спагетти, сливки, бекон, пармезан, желток куриный (350гр)</div>
+            </div>
+            <div class="item-price">550₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста 4 сыра</div>
+              <div class="item-description">Пармезан, чеддер, сыр с голубой плесенью, сливки, сыр гауда (250гр)</div>
+            </div>
+            <div class="item-price">500₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Паста с соусом песто</div>
+              <div class="item-description">Яйцо, пармезан, масло оливковое, базилик свежий, орех грецкий, чеснок, томаты черри (250гр)</div>
+            </div>
+            <div class="item-price">470₽</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ланчи -->
+    <div id="lunch" class="menu-content active">
+      <div class="menu-category">
+        <h3>ЗАВТРАКИ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Английский завтрак</div>
+              <div class="item-description">Яйца, бекон, сосиски венские, хлеб тостовый, сыр плавленый (250гр)</div>
+            </div>
+            <div class="item-price">490₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Сэндвич</div>
+              <div class="item-description">Хлеб тостовый, айсберг, огурец, помидор, куриное филе, майонез, ветчина из индейки, сыр чеддер (350гр)</div>
+            </div>
+            <div class="item-price">430₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Каша манная</div>
+              <div class="item-description">Молоко, крупа манная, масло сливочное (300гр)</div>
+            </div>
+            <div class="item-price">280₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Каша овсяная</div>
+              <div class="item-description">Молоко, крупа овсяная, масло сливочное, арахисовая паста, клубника (300гр)</div>
+            </div>
+            <div class="item-price">280₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Скрэмбл</div>
+              <div class="item-description">Яйца, сметана, пармезан, соль, масло растительное, хлеб тостовый (200гр)</div>
+            </div>
+            <div class="item-price">390₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>ГАРНИРЫ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Овощи гриль</div>
+              <div class="item-description">Цукини, баклажаны, шампиньоны, перец болгарский, помидоры свежие (190гр)</div>
+            </div>
+            <div class="item-price">390₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Молодой картофель с розмарином</div>
+              <div class="item-description">Молодой картофель, розмарин, чесночное масло (150гр)</div>
+            </div>
+            <div class="item-price">280₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Картофель фри</div>
+              <div class="item-description">(130гр)</div>
+            </div>
+            <div class="item-price">280₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Картофель по-деревенски</div>
+              <div class="item-description">(130гр)</div>
+            </div>
+            <div class="item-price">280₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Брокколи</div>
+              <div class="item-description">Капуста брокколи, растительное масло (150гр)</div>
+            </div>
+            <div class="item-price">280₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>ХЛЕБНАЯ КОРЗИНА</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Бородинский хлеб</div>
+              <div class="item-description"></div>
+            </div>
+            <div class="item-price">170₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Фокача с розмарином</div>
+              <div class="item-description">New (225гр)</div>
+            </div>
+            <div class="item-price">300₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Фокача с пармезаном</div>
+              <div class="item-description">New (235гр)</div>
+            </div>
+            <div class="item-price">300₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Фокача с чесночным маслом</div>
+              <div class="item-description">New (225гр)</div>
+            </div>
+            <div class="item-price">300₽</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Основное меню -->
+    <div id="main" class="menu-content">
+      <div class="menu-category">
+        <h3>САЛАТЫ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Салат с копченой сёмгой</div>
+              <div class="item-description">New - Филе копчёной сёмги, помидоры свежие, салат айсберг, огурцы свежие, маслины, оливки, кунжут (290гр)</div>
+            </div>
+            <div class="item-price">650₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Руккола с креветкой</div>
+              <div class="item-description">New - Руккола, айсберг, креветки, черри, масло оливковое, оливки, маслины (250гр)</div>
+            </div>
+            <div class="item-price">920₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Цезарь с курицей</div>
+              <div class="item-description">New - Куриная грудка, салат романо, салат айсберг, помидоры черри, гренки, соус цезарь, пармезан (285гр)</div>
+            </div>
+            <div class="item-price">620₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Цезарь с креветкой</div>
+              <div class="item-description">New - Креветки, салат романо, салат айсберг, помидоры черри, гренки, соус цезарь, пармезан (270гр)</div>
+            </div>
+            <div class="item-price">800₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Салат с морепродуктами</div>
+              <div class="item-description">Мини осьминог, креветки, мясо мидии, кальмар, салат чука, соус ореховый гамадари, салат айсберг, лимон (280гр)</div>
+            </div>
+            <div class="item-price">890₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Салат греческий</div>
+              <div class="item-description">Оливки, маслины, перец болгарский, помидоры, огурцы, сыр фета, масло оливковое, соус цитронель, салат айсберг, лук красный (300гр)</div>
+            </div>
+            <div class="item-price">540₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>ЗАКУСКИ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Язык говяжий с горчицей</div>
+              <div class="item-description">New - Язык говяжий отварной, огурцы маринованные, розмарин свежий, петрушка, чеснок, горчица (280гр)</div>
+            </div>
+            <div class="item-price">440₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Сельдь с молодым картофелем</div>
+              <div class="item-description">Сельдь, мини картофель, чесночное масло, огурец, лук красный (320гр)</div>
+            </div>
+            <div class="item-price">490₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Креветки жареные</div>
+              <div class="item-description">Креветки неочищенные, соевый соус, соус сладкий чили, чесночное масло, лимон (250гр)</div>
+            </div>
+            <div class="item-price">700₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Креветки темпура</div>
+              <div class="item-description">Креветки в кляре, соус кисло сладкий (220гр)</div>
+            </div>
+            <div class="item-price">630₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Куриные крылья</div>
+              <div class="item-description">Куриные крылья, соус BBQ, соус чесночный, болгарский перец, огурец (300гр)</div>
+            </div>
+            <div class="item-price">490₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Сыр дорблю</div>
+              <div class="item-description">Грецкий орех, мёд (100гр)</div>
+            </div>
+            <div class="item-price">440₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>СУПЫ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Борщ</div>
+              <div class="item-description">Говядина, болгарский перец, картофель, капуста, свекла, морковь, сметана, хлеб бородинский, сало (380гр)</div>
+            </div>
+            <div class="item-price">520₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Том ям</div>
+              <div class="item-description">Мясо мидии, креветки, осьминог, кальмары, томаты черри, паста том ям, кокосовое молоко, лимонник, корень имбиря, листья лайма, шампиньоны (450гр)</div>
+            </div>
+            <div class="item-price">710₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Солянка мясная</div>
+              <div class="item-description">Куриная грудка, колбаски охотничьи, грудинка свиная, томатная паста, огурцы соленые, лук репчатый, колбаса копченая (300гр)</div>
+            </div>
+            <div class="item-price">490₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Окрошка с говяжьим языком (на кефире)</div>
+              <div class="item-description">New - Говяжий язык, картофель, редис, яйцо куриное, свежие огурцы, укроп, сметана, горчица, кефир (380гр)</div>
+            </div>
+            <div class="item-price">390₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>СТЕЙКИ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Рибай</div>
+              <div class="item-description">Говядина, кукуруза, помидоры, розмарин (380гр)</div>
+            </div>
+            <div class="item-price">2490₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пеппер-Стейк</div>
+              <div class="item-description">Говядина, демиглас, розмарин, молодой картофель (380гр)</div>
+            </div>
+            <div class="item-price">1550₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Стриплойн</div>
+              <div class="item-description">Мраморная говядина, перец черный, молодой картофель, масло чесночное, укроп, соус сальса (380гр)</div>
+            </div>
+            <div class="item-price">1550₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Филе миньон</div>
+              <div class="item-description">Вырезка говяжья, шампиньоны, молодой картофель, соус демиглас, чесночное масло (400гр)</div>
+            </div>
+            <div class="item-price">1550₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>ГОРЯЧЕЕ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Лосось на гриле</div>
+              <div class="item-description">New - Лосось, сливки 22%, помидоры черри, масло растительное, маслины, оливки, лимон, зелень (320гр)</div>
+            </div>
+            <div class="item-price">830₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Дорадо</div>
+              <div class="item-description">Дорадо, соус тар тар, масло оливковое, петрушка, укроп, маслины, оливки, томаты черри (400гр)</div>
+            </div>
+            <div class="item-price">890₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Ребра свиные в соусе барбекю</div>
+              <div class="item-description">Свиные ребра, соус BBQ (400гр)</div>
+            </div>
+            <div class="item-price">690₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Шницель куриный</div>
+              <div class="item-description">Куриное филе, молодой картофель, соус брусничный (250гр)</div>
+            </div>
+            <div class="item-price">550₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>БУРГЕРЫ И СЕНДВИЧИ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Бургер Брю</div>
+              <div class="item-description">Котлета из мраморной вырезки, сыр дор блю, огурцы, помидоры, лук, салат айсберг, бекон, яйцо (350гр)</div>
+            </div>
+            <div class="item-price">760₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Бургер Джек Дэниелс</div>
+              <div class="item-description">Котлета из мраморной вырезки, соус бургерный, огурцы, помидоры, лук, салат айсберг, луковые кольца (300гр)</div>
+            </div>
+            <div class="item-price">740₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Бургер Куриный</div>
+              <div class="item-description">New - Бифштекс куриный, салат айсберг, помидоры свежие, соус тар тар, сыр чеддер, огурцы маринованные, бекон (290гр)</div>
+            </div>
+            <div class="item-price">430₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>ДЕСЕРТЫ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Морковный пирог с грецким орехом</div>
+              <div class="item-description">New</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Торт Медовик</div>
+              <div class="item-description">New</div>
+            </div>
+            <div class="item-price">330₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пирожное Бомба "Рафаэлло"</div>
+              <div class="item-description">New</div>
+            </div>
+            <div class="item-price">430₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Штрудель яблочный с мороженым</div>
+              <div class="item-description">New</div>
+            </div>
+            <div class="item-price">430₽</div>
+          </div>
+        </div>
+      </div>
+    </div>, салат айсберг, бекон, яйцо (350гр)</div>
+            </div>
+            <div class="item-price">760₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Бургер Джек Дэниелс</div>
+              <div class="item-description">Котлета из мраморной вырезки, соус бургерный, огурцы, помидоры, лук, салат айсберг, луковые кольца (300гр)</div>
+            </div>
+            <div class="item-price">740₽</div>
+          </div>
+    <!-- Барная карта -->
+    <div id="bar" class="menu-content">
+      <div class="menu-category">
+        <h3>ПИВО BREWKITCHEN</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN Krik Ламбик</div>
+              <div class="item-description">(500мл)</div>
+            </div>
+            <div class="item-price">460₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN IPA</div>
+              <div class="item-description">ИПА (500мл)</div>
+            </div>
+            <div class="item-price">430₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN Lager</div>
+              <div class="item-description">Лагер (500мл)</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN Weizen</div>
+              <div class="item-description">Нефильтрованное (500мл)</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN Ale</div>
+              <div class="item-description">Английский эль (500мл)</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>АВТОРСКИЕ КОКТЕЙЛИ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Лонг Айленд Айс Ти</div>
+              <div class="item-description">Ром, джин, текила, водка, трипл сек, кока-кола, саур микс, лимон (400мл)</div>
+            </div>
+            <div class="item-price">690₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Бомбей-Тоник</div>
+              <div class="item-description">Джин Бомбей, тоник, лимон (400мл)</div>
+            </div>
+            <div class="item-price">650₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Маргарита</div>
+              <div class="item-description">Куантро, текила, саур микс (200мл)</div>
+            </div>
+            <div class="item-price">600₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Мартини Рояле</div>
+              <div class="item-description">Просекко, мартини Бьянко, саур микс (400мл)</div>
+            </div>
+            <div class="item-price">600₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Мартини Фиеро - Тоник</div>
+              <div class="item-description">Мартини Фиеро, тоник, апельсин (440мл)</div>
+            </div>
+            <div class="item-price">600₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Апероль Шприц</div>
+              <div class="item-description">Игристое вино, апероль, газированная вода (350мл)</div>
+            </div>
+            <div class="item-price">530₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Бакарди Дайкири</div>
+              <div class="item-description">Ром, сахарный сироп, саур микс (150мл)</div>
+            </div>
+            <div class="item-price">530₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Пина Колада</div>
+              <div class="item-description">Ром, кокосовый ликер, сок ананасовый, сливки, сливки взбитые (400мл)</div>
+            </div>
+            <div class="item-price">530₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Мохито</div>
+              <div class="item-description">Ром, мята, лайм, содовая, сироп (410мл)</div>
+            </div>
+            <div class="item-price">480₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Мохито малиновый/клубничный</div>
+              <div class="item-description">Ром, мята, лайм, малина/клубника, содовая, сироп (410мл)</div>
+            </div>
+            <div class="item-price">480₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>НАСТОЙКИ BREWKITCHEN</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN Вишневка</div>
+              <div class="item-description">(50мл)</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN Клюковка</div>
+              <div class="item-description">(50мл)</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN Хренесси</div>
+              <div class="item-description">(50мл)</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">BREWKITCHEN Лимончелло</div>
+              <div class="item-description">(50мл)</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>КРЕПКИЕ НАПИТКИ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Курвуазье ВСОP</div>
+              <div class="item-description">Коньяк (50мл)</div>
+            </div>
+            <div class="item-price">910₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">REMY MARTIN VSOP</div>
+              <div class="item-description">Коньяк (50мл)</div>
+            </div>
+            <div class="item-price">890₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Чивас Ригал 12лет</div>
+              <div class="item-description">Виски (50мл)</div>
+            </div>
+            <div class="item-price">690₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Джек Дэниелс</div>
+              <div class="item-description">Виски (50мл)</div>
+            </div>
+            <div class="item-price">650₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Джемесон</div>
+              <div class="item-description">Виски (50мл)</div>
+            </div>
+            <div class="item-price">650₽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>КОФЕ И ЧАЙ</h3>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Латте</div>
+              <div class="item-description">(250мл)</div>
+            </div>
+            <div class="item-price">240₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Капучино</div>
+              <div class="item-description">(220мл)</div>
+            </div>
+            <div class="item-price">220₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Американо</div>
+              <div class="item-description">(180мл)</div>
+            </div>
+            <div class="item-price">180₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Эспрессо</div>
+              <div class="item-description">(40мл)</div>
+            </div>
+            <div class="item-price">170₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Дворцовый пуэр</div>
+              <div class="item-description">Элитный чай (600мл)</div>
+            </div>
+            <div class="item-price">600₽</div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <div class="item-name">Молочный улун</div>
+              <div class="item-description">Чай (350мл)</div>
+            </div>
+            <div class="item-price">380₽</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="promos">
+    <h2>Актуальные акции</h2>
+    <p style="text-align: center; font-size: 1.2rem; color: #ccc;">
+      Следите за нашими акциями в 
+      <a href="https://t.me/BrewKitchen4k3_bot" style="color: #f39c12; text-decoration: none;">Telegram-боте</a>
+    </p>
+  </section>
+
+  <section id="banquets">
+    <h2>Банкеты</h2>
+    <p>Мы организуем незабываемые вечера — от дней рождения до корпоративов. Зал на 50 гостей, гибкое меню и уютная атмосфера. Собственная пивоварня и авторские коктейли создадут особую атмосферу вашего праздника.</p>
+  </section>
+
+  <section id="reserve">
+    <h1 style="text-align:center; font-size:2rem; margin-bottom:2rem;">Бронирование и контакты</h1>
+
+    <div style="display:flex; justify-content:space-between; gap:2rem; max-width:1200px; margin:0 auto; flex-wrap:wrap; align-items: flex-start;">
+
+      <!-- Левый блок: Контакты -->
+      <div style="flex:1; min-width:280px;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color:#eee; margin-top: 0;">Связь с нами</h3>
+        <p>Для бронирования, отзывов, пожеланий и связи с администрацией — пишите в бот:</p>
+        <p style="margin-bottom: 0.5rem;">
+          <img src="img/qr.png" alt="Telegram QR" style="width:150px; display:block; margin-bottom:0.3rem;">
+          <a href="https://t.me/BrewKitchen4k3_bot" target="_blank" style="color:#f39c12; font-weight:bold; text-decoration:none;">Наш Telegram-бот</a>
+        </p>
+        <p><strong>Телефон:</strong> <a href="tel:+79295988226" style="color:#f39c12; text-decoration:none;">+7 (929) 598-82-26</a></p>
+        <p><strong>Email:</strong> <a href="mailto:info@brewkitchen.ru" style="color:#f39c12; text-decoration:none;">info@brewkitchen.ru</a></p>
+        <p><strong>Адрес:</strong> ул. Нагатинская 4к3</p>
+      </div>
+
+      <!-- Центр: форма бронирования -->
+      <div style="flex:1; min-width:280px;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color:#eee; margin-top: 0;">Форма бронирования</h3>
+        <form id="reserveForm" action="https://formspree.io/f/xwpnbolz" method="POST">
+          <input type="text" name="name" placeholder="Ваше имя" required>
+          <input type="tel" name="phone" placeholder="Телефон" required>
+          <input type="date" name="date" required>
+          <input type="number" name="guests" placeholder="Количество гостей" min="1" max="55" required>
+
+          <div class="radio-group">
+            <p style="font-weight: bold; color:#eee;">Как подтвердить бронь?</p>
+            <label style="display: block; color:#eee; margin-bottom: 0.2rem;"><input type="radio" name="confirm" value="whatsapp" style="margin-right: 8px;"> Подтвердить через WhatsApp</label>
+            <label style="display: block; color:#eee;"><input type="radio" name="confirm" value="call" style="margin-right: 8px;"> Перезвонить</label>
+          </div>
+
+          <textarea name="comment" placeholder="Комментарии"></textarea>
+          <button type="submit">Забронировать</button>
+        </form>
+      </div>
+
+      <!-- Правый блок: Яндекс.Карта -->
+      <div style="flex:1; min-width:280px;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color:#eee; margin-top: 0;">Мы на карте</h3>
+        <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=116123320570" width="100%" height="300" frameborder="0" style="border-radius:8px;"></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Гастробар BREWKITCHEN. Все права защищены.
+  </footer>
+
+  <script>
+    // Функция переключения табов меню
+    function showMenu(menuType) {
+      // Убираем активный класс со всех табов и контента
+      document.querySelectorAll('.menu-tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.menu-content').forEach(content => content.classList.remove('active'));
+      
+      // Добавляем активный класс к выбранному табу и контенту
+      event.target.classList.add('active');
+      document.getElementById(menuType).classList.add('active');
+    }
+
+    // === TELEGRAM CONFIG ===
+    const TELEGRAM_BOT_TOKEN = "8094072010:AAH2Wtqedk7L3t7Gj2iQlUFaPyXggTW1SGs";
+    const CHAT_ID = "418419726";
+
+    document.getElementById("reserveForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+
+      const message = `📩 Новое бронирование!%0AИмя: ${data.get("name")}%0AТелефон: ${data.get("phone")}%0AДата: ${data.get("date")}%0AКоличество гостей: ${data.get("guests")}%0AСпособ подтверждения: ${data.get("confirm")}%0AКомментарий: ${data.get("comment")}`;
+
+      // Отправка в Telegram
+      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${message}`);
+
+      // Отправка в Formspree (почта)
+      await fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      alert("Заявка отправлена! Мы свяжемся с вами.");
+      form.reset();
+    });
+  </script>
+</body>
+</html>
