@@ -1,0 +1,1361 @@
+<!DOCTYPE html><html lang="ru">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Гастробар</title>
+ <style>
+    /* --- Глобальные стили --- */
+    body {
+        margin: 0;
+        font-family: 'Open Sans', sans-serif; /* Единый шрифт для текста */
+        background: #111;
+        color: #eee;
+        scroll-behavior: smooth;
+    }
+
+    /* --- Шапка (Header) --- */
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8); /* Чуть более плотный фон */
+        backdrop-filter: blur(8px); /* Усилим блюр */
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem; /* Чуть больший зазор */
+        padding: 1.2rem; /* Увеличим паддинг */
+        z-index: 100; /* Высокий z-index */
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6); /* Тень для объема */
+    }
+
+    header a {
+        color: #eee;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.4s ease; /* Более плавная анимация */
+        font-family: 'Montserrat', sans-serif; /* Для ссылок в шапке */
+        font-size: 1.1rem; /* Чуть крупнее */
+        position: relative;
+    }
+
+    header a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 3px;
+        background-color: #f39c12;
+        left: 50%;
+        bottom: -8px;
+        transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    header a:hover::after {
+        width: 100%;
+        left: 0;
+    }
+
+    header a:hover {
+        color: #f39c12;
+    }
+
+    /* --- Общие стили для секций --- */
+    section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 8rem 2rem 4rem 2rem; /* Увеличен верхний паддинг, чтобы не перекрывать хедером */
+        position: relative; /* Для позиционирования псевдоэлементов */
+    }
+
+    /* --- Hero Section --- */
+    .hero {
+        background: url('img/background.jpg') center/cover no-repeat fixed; /* Фиксированный фон для параллакса */
+        color: white;
+        text-align: center;
+        padding-top: 10rem; /* Чтобы контент не был под хедером */
+        justify-content: center; /* Центрируем контент по вертикали */
+    }
+
+    .hero h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 4rem; /* Крупнее заголовок */
+        text-shadow: 0 0 20px rgba(0, 0, 0, 0.9), 0 0 5px rgba(243, 156, 18, 0.7); /* Более выразительная тень */
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .hero p {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 1.5rem; /* Крупнее подзаголовок */
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        margin-bottom: 2.5rem;
+        color: #e0e0e0;
+    }
+
+    /* --- Кнопка (Button) --- */
+    .btn {
+        background: #f39c12;
+        color: #111;
+        padding: 1rem 2rem; /* Увеличен паддинг */
+        border-radius: 35px; /* Более скругленные края */
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Более плавная анимация */
+        font-size: 1.1rem; /* Крупнее текст */
+        box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4); /* Тень для кнопки */
+        letter-spacing: 0.5px;
+    }
+
+    .btn:hover {
+        background: #fff;
+        color: #000;
+        transform: translateY(-5px) scale(1.05); /* Подъем и увеличение */
+        box-shadow: 0 10px 30px rgba(243, 156, 18, 0.7); /* Более яркая тень */
+    }
+
+    /* --- Общие стили для гридов и карточек (если не переопределены) --- */
+    .grid {
+        display: grid;
+        gap: 2rem; /* Увеличен зазор */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        width: 100%;
+        max-width: 1200px; /* Увеличена макс. ширина */
+        margin-top: 2rem;
+    }
+
+    .card {
+        background: #222;
+        padding: 1.5rem; /* Увеличен паддинг */
+        border-radius: 15px;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Тень по умолчанию */
+    }
+
+    .card:hover {
+        transform: translateY(-8px); /* Чуть больше подъем */
+        background: #333;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7); /* Более выразительная тень */
+    }
+
+    /* --- Форма (для резервации) --- */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Увеличен зазор */
+        width: 100%;
+        max-width: 400px;
+    }
+
+    input,
+    textarea {
+        padding: 0.9rem; /* Увеличен паддинг */
+        border: 1px solid #444; /* Легкая рамка */
+        border-radius: 8px;
+        background: #333; /* Темный фон полей */
+        color: #eee;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 1rem;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: #bbb;
+    }
+
+    input:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #f39c12; /* Оранжевая рамка при фокусе */
+        box-shadow: 0 0 8px rgba(243, 156, 18, 0.5);
+    }
+
+    button[type="submit"] {
+        background: #f39c12;
+        border: none;
+        padding: 1rem; /* Увеличен паддинг */
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 1.1rem; /* Крупнее текст */
+        color: #111;
+    }
+
+    button[type="submit"]:hover {
+        background: #fff;
+        color: #000;
+        box-shadow: 0 5px 15px rgba(243, 156, 18, 0.6);
+    }
+
+    /* --- Футер (Footer) --- */
+    footer {
+        background: #000;
+        text-align: center;
+        padding: 1.5rem; /* Увеличен паддинг */
+        color: #777;
+        font-size: 0.95rem;
+    }
+
+    /* --- Секция "Бронирование/Контакты" --- */
+    .reserve-section {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+        position: relative;
+        overflow: hidden;
+        padding: 6rem 2rem; /* Для согласованности с другими секциями */
+        color: #eee;
+        text-align: left; /* Текст внутри должен выравниваться по левому краю */
+    }
+
+    .reserve-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 80%, rgba(243, 156, 18, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(243, 156, 18, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .reserve-section h3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.8rem; /* Крупнее заголовки */
+        margin-bottom: 1.2rem;
+        color: #f39c12;
+        text-shadow: 0 0 10px rgba(0,0,0,0.7);
+    }
+
+    .reserve-section p,
+    .reserve-section label {
+        margin-bottom: 0.8rem;
+        font-size: 1.05rem;
+        line-height: 1.5;
+        color: #e0e0e0;
+    }
+
+    .reserve-section a {
+        color: #f39c12;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .reserve-section a:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    .reserve-section .radio-group {
+        margin: 1rem 0;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .reserve-section .radio-group p {
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #f39c12; /* Выделим текст вопроса */
+    }
+
+    .reserve-section .radio-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+    }
+
+    .reserve-section .radio-group input[type="radio"] {
+        margin-right: 10px;
+        appearance: none; /* Скрываем стандартный радио-батон */
+        width: 18px;
+        height: 18px;
+        border: 2px solid #f39c12;
+        border-radius: 50%;
+        vertical-align: middle;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .reserve-section .radio-group input[type="radio"]:checked {
+        background: #f39c12;
+        border-color: #f39c12;
+    }
+
+    .reserve-section .radio-group input[type="radio"]:checked::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background: #111;
+        border-radius: 50%;
+    }
+
+    .reserve-section iframe {
+        border: none; /* Уберем рамку, которую добавляет yandex map widget */
+        border-radius: 12px; /* Более мягкое скругление */
+        box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+        min-height: 300px; /* Минимальная высота карты */
+    }
+
+
+    /* --- Секция "Меню" --- */
+    .menu-section {
+        background: linear-gradient(135deg, #251e1a 0%, #3a302a 50%, #251e1a 100%);
+        position: relative;
+        color: #eee;
+        box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+    }
+
+    .menu-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%23251e1a"/><path d="M 0 0 L 100 0 L 100 100 L 0 100 Z" fill="%23000000" opacity="0.1"/><path d="M 0 0 L 100 0 L 100 100 L 0 100 Z" fill="%23f39c12" opacity="0.03"/></svg>'), /* Легкая текстура */
+            radial-gradient(circle at 10% 90%, rgba(243, 156, 18, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 90% 10%, rgba(101, 67, 33, 0.12) 0%, transparent 50%);
+        background-size: 100px 100px, cover, cover;
+        pointer-events: none;
+    }
+
+    .menu-section h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3rem;
+        color: #f39c12;
+        margin-bottom: 3.5rem;
+        text-shadow: 0 0 15px rgba(243, 156, 18, 0.6), 0 0 5px rgba(0,0,0,0.8);
+        position: relative;
+        z-index: 1;
+    }
+
+    #menu-tabs {
+        margin-bottom: 2.5rem;
+        display: flex; /* Убедимся, что это flex */
+        gap: 1.5rem; /* Увеличим зазор между кнопками */
+        justify-content: center;
+        flex-wrap: wrap; /* Для адаптивности */
+    }
+
+    .tab-btn {
+        background: rgba(80, 80, 80, 0.7);
+        color: #fff;
+        border: 1px solid rgba(243, 156, 18, 0.3);
+        border-radius: 25px;
+        padding: 0.7rem 1.4rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        backdrop-filter: blur(3px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        font-family: 'Open Sans', sans-serif;
+        font-size: 1.05rem;
+    }
+
+    .tab-btn:hover:not(.active) {
+        background: rgba(100, 100, 100, 0.8);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .tab-btn.active {
+        background: #f39c12;
+        color: #111;
+        box-shadow: 0 3px 15px rgba(243, 156, 18, 0.6);
+        border-color: #f39c12;
+        transform: translateY(-1px);
+    }
+
+    .tab-content {
+        display: none;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    /* Стили для изображений меню */
+    .menu-img {
+        width: 100%;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        user-select: none;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Тень по умолчанию */
+    }
+
+    .menu-img:hover {
+        transform: scale(1.6); /* Менее агрессивное, но заметное увеличение */
+        box-shadow: 0 15px 30px rgba(0,0,0,0.7), 0 0 0 5px rgba(243, 156, 18, 0.5); /* Большая тень и тонкая оранжевая рамка */
+        z-index: 100;
+    }
+
+    /* Swiper стили */
+    .swiper-slide {
+        z-index: 1;
+        transition: z-index 0.3s ease;
+        width: 300px !important; /* Важно для Swiper */
+        text-align: center;
+    }
+
+    .swiper,
+    .swiper-wrapper,
+    .swiper-slide {
+        overflow: visible !important; /* Важно для эффекта hover */
+        position: relative !important;
+    }
+
+    .swiper-slide.hovered {
+        z-index: 9999 !important; /* Увеличим, чтобы было поверх всего при наведении */
+    }
+
+    /* Swiper навигация и пагинация */
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #f39c12 !important;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        padding: 10px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-50%);
+        top: 50%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 1.2rem !important;
+    }
+
+    .swiper-pagination-bullet {
+        background: rgba(255, 255, 255, 0.4) !important;
+        opacity: 1 !important;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #f39c12 !important;
+    }
+
+    /* --- Оверлей возрастной проверки --- */
+    .cat3-container {
+        position: relative;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    #cat3.blurred {
+        filter: blur(8px);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .age-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 400px;
+        background: rgba(0, 0, 0, 0.95); /* Чуть плотнее */
+        color: #fff;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        text-align: center;
+        padding: 2rem;
+        border-radius: 15px;
+        pointer-events: auto;
+    }
+
+    .age-overlay-content {
+        max-width: 400px;
+    }
+
+    .age-overlay h3 {
+        margin-bottom: 1rem;
+        color: #f39c12;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2rem;
+        text-shadow: 0 0 10px rgba(243,156,18,0.7);
+    }
+
+    .age-overlay p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #e0e0e0;
+    }
+
+    .age-overlay button {
+        background: #f39c12;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 1.5rem;
+        transition: background 0.3s ease;
+        font-size: 1.1rem;
+        color: #111;
+        box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+    }
+
+    .age-overlay button:hover {
+        background: #fff;
+        color: #000;
+        box-shadow: 0 8px 20px rgba(243, 156, 18, 0.6);
+    }
+
+    /* --- Секция "Акции" --- */
+    .promos-section {
+  background: linear-gradient(135deg, #1a1520 0%, #201a25 25%, #1a2520 50%, #25201a 75%, #1a1520 100%); 
+  position: relative;
+  overflow: hidden;
+  color: #eee; /* Убедимся, что текст белый */
+  text-align: center; /* Центрируем заголовок */
+  padding: 4rem 2rem; /* Оставляем паддинги, чтобы не было слишком плотно */
+}
+
+.promos-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Возвращаем понравившийся радиальный градиент */
+  background: radial-gradient(circle at 15% 15%, rgba(243, 156, 18, 0.15) 0%, transparent 35%),
+        radial-gradient(circle at 85% 85%, rgba(255, 215, 0, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 40% 60%, rgba(255, 69, 0, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 70% 20%, rgba(255, 20, 147, 0.06) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0; /* Убедимся, что фон под контентом */
+}
+
+    .promos-section h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3rem;
+        color: #f39c12;
+        margin-bottom: 3.5rem;
+        text-shadow: 0 0 15px rgba(243, 156, 18, 0.6), 0 0 5px rgba(0, 0, 0, 0.8);
+        position: relative;
+        z-index: 1;
+    }
+
+    .promos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .promo-card {
+        height: 350px;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(243, 156, 18, 0.1);
+    }
+
+    .promo-card:hover {
+        transform: translateY(-15px) scale(1.03);
+        box-shadow: 0 25px 60px rgba(243, 156, 18, 0.5), 0 0 40px rgba(243, 156, 18, 0.3);
+    }
+
+    .promo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.3) 100%); /* Уменьшено затемнение */
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+        transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        font-family: 'Open Sans', sans-serif;
+        text-align: left;
+    }
+
+    .promo-card:hover .promo-overlay {
+        background: linear-gradient(135deg, rgba(243, 156, 18, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%); /* Уменьшено затемнение при наведении */
+    }
+
+    .promo-overlay h3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        margin: 0 0 0.5rem 0;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        line-height: 1.2;
+        color: #fff;
+    }
+
+    .promo-overlay p {
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+        line-height: 1.5;
+        margin: 0;
+        flex-grow: 1;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        color: #e0e0e0;
+    }
+
+    .promo-tag {
+        background: #f39c12;
+        padding: 0.6rem 1.2rem;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        align-self: flex-start;
+        margin-top: 1rem;
+        color: #1a1a1a;
+        text-shadow: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        white-space: nowrap;
+        position: relative;
+        z-index: 2;
+    }
+
+    .promo-card:hover .promo-tag {
+        background: #fff;
+        color: #1a1a1a;
+        transform: scale(1.08);
+        box-shadow: 0 7px 20px rgba(255, 255, 255, 0.6);
+    }
+
+    /* Индивидуальные фоны для карточек акций */
+    .promo-club-card {
+        background-image: url('img/promos/club_card.png');
+    }
+
+    .promo-birthday-bonus {
+        background-image: url('img/promos/birthday_bonus.png');
+    }
+
+    .promo-beer-platter {
+        background-image: url('img/promos/beer_platter.png');
+    }
+
+    .promo-friends-discount {
+        background-image: url('img/promos/friends_discount.png');
+    }
+
+    .promo-board-games {
+        background-image: url('img/promos/board_games.png');
+    }
+
+    .promo-happy-hour {
+        background-image: url('img/promos/happy_hour_wings.png');
+    }
+
+/* --- НАЧАЛО БЛОКА СТИЛЕЙ СЕКЦИИ "БАНКЕТЫ" (ОБНОВЛЕНИЕ 19.05) --- */
+.banquets-section {
+    background: url('img/banquets/main_bg.png') center/cover no-repeat fixed;
+    position: relative;
+    overflow: hidden;
+    color: #eee;
+    text-align: center;
+    padding: 6rem 2rem;
+    box-shadow: none;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.banquets-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.banquets-section h2,
+.banquets-section .subtitle,
+.banquets-features,
+.banquets-section .btn {
+    position: relative;
+    z-index: 2;
+}
+
+.banquets-section h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.2rem;
+    margin-bottom: 1rem;
+    color: #f39c12;
+    text-shadow: 0 0 20px rgba(243, 156, 18, 0.9), 0 0 8px rgba(0, 0, 0, 0.9);
+}
+
+.banquets-section .subtitle {
+    font-size: 1.4rem;
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+    color: #ccc;
+    line-height: 1.6;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+.banquets-features {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feature-card {
+    background: linear-gradient(145deg, rgba(34, 34, 34, 0.9) 0%, rgba(55, 55, 55, 0.8) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.5s ease, background 0.5s ease;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(243, 156, 18, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(243, 156, 18, 0.05);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.feature-card:hover::before {
+    background: rgba(243, 156, 18, 0.15);
+    transform: rotate(0deg);
+}
+
+.feature-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    background: linear-gradient(145deg, rgba(50, 50, 50, 0.95) 0%, rgba(70, 70, 70, 0.85) 100%);
+    box-shadow: 0 20px 50px rgba(243, 156, 18, 0.6), 0 0 30px rgba(243, 156, 18, 0.4);
+}
+
+.feature-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: #f39c12;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+}
+
+.feature-card p {
+    color: #ccc;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.feature-card .icon {
+    font-size: 2.2rem;
+    color: #f39c12;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover .icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.banquets-section .btn {
+    font-size: 1.1rem;
+    padding: 1rem 2.5rem;
+    border-radius: 35px;
+    box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.banquets-section .btn:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(243, 156, 18, 0.7);
+}
+
+/* --- Стили для карточек банкета с индивидуальным фоном --- */
+
+.banquet-feature-bg {
+    height: auto;
+    min-height: 300px;
+    padding: 0;
+    color: #fff; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.banquet-feature-bg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0) 100%);
+    z-index: 2; 
+    border-radius: inherit;
+}
+
+.banquet-feature-content-wrapper {
+    position: relative;
+    z-index: 3; 
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.banquet-feature-content-wrapper h3 {
+    margin-top: 0; 
+    margin-bottom: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.banquet-feature-content-wrapper p {
+    margin: 0;
+    color: #fff;
+}
+
+/* Индивидуальные фоны для каждой из 4 карточек */
+.banquet-feature-1 {
+    background-image: url('img/banquets/personal_menu.png'); 
+}
+
+.banquet-feature-2 {
+    background-image: url('img/banquets/main_bg.png');
+}
+
+.banquet-feature-3 {
+    background-image: url('img/banquets/reservs.png');
+}
+
+/* --- КОНЕЦ БЛОКА СТИЛЕЙ СЕКЦИИ "БАНКЕТЫ" --- */
+
+    /* --- Медиа-запросы для адаптивности --- */
+    @media (max-width: 768px) {
+        header {
+            gap: 1rem;
+            padding: 0.8rem;
+        }
+
+        header a {
+            font-size: 0.9rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .promos-section h2,
+        .menu-section h2,
+        .banquets-section h2 {
+            font-size: 2.5rem;
+        }
+
+        .banquets-section .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .feature-card {
+            min-width: unset;
+            max-width: 90%; /* Позволит карточкам занимать почти всю ширину на мобильных */
+        }
+
+        .promo-card {
+            height: 300px; /* Немного уменьшим высоту карточек акций на мобильных */
+        }
+
+        .promo-overlay h3 {
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+        }
+
+        .promo-overlay p {
+            font-size: clamp(0.85rem, 3vw, 1rem);
+        }
+
+        .promo-tag {
+            font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        }
+
+        #menu-tabs {
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+        }
+
+        .reserve-section h3 {
+            font-size: 1.5rem;
+        }
+
+        .reserve-section p,
+        .reserve-section label {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+</head>
+<body>
+  <header>
+    <a href="#home">Главная</a>
+    <a href="#menu">Меню</a>
+    <a href="#promos">Акции</a>
+    <a href="#banquets">Банкеты</a>
+    <a href="#reserve">Бронирование/Контакты</a>
+  </header>
+
+  <section id="home" class="hero">
+    <h1>Добро пожаловать в гастробар BREWKITCHEN</h1>
+    <p>Еда, напитки и атмосфера, которые стоит попробовать</p>
+    <a href="#reserve" class="btn">Забронировать стол</a>
+  </section>
+
+  <section id="menu" class="menu-section">
+    <h2>Меню</h2>
+
+    <!-- Табы -->
+    <div id="menu-tabs" style="display:flex; gap:1rem; justify-content:center; margin-bottom:2rem;">
+      <button class="tab-btn active" data-tab="cat1">Деловые обеды</button>
+      <button class="tab-btn" data-tab="cat2">Основное меню</button>
+      <button class="tab-btn" data-tab="cat3">Барная карта</button>
+    </div>
+
+    <!-- Контент табов -->
+    <div id="cat1" class="tab-content active" style="max-width:1000px; margin:0 auto;">
+      <div class="grid" style="grid-template-columns: 1fr;">
+        <img src="img/kitchen/0.jpg" class="menu-img" style="width:35%; border-radius:15px; cursor:pointer;">
+      </div>
+    </div>
+
+    <div id="cat2" class="tab-content" style="max-width:1000px; margin:0 auto;">
+      <!-- Swiper для Основного меню -->
+      <div class="swiper swiper-cat2">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="img/kitchen/1.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/2.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/3.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/4.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/5.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/6.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/7.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/8.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/9.jpg" alt="Меню" class="menu-img"></div>
+          <div class="swiper-slide"><img src="img/kitchen/10.jpg" alt="Меню" class="menu-img"></div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <!-- Барная карта с оверлеем возрастной проверки -->
+    <div class="cat3-container">
+      <div id="cat3" class="tab-content">
+        <div class="swiper swiper-cat3">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="img/bar/1.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/2.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/3.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/4.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/5.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/6.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/7.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/8.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/9.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/10.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/11.jpg" alt="Меню" class="menu-img"></div>
+            <div class="swiper-slide"><img src="img/bar/12.jpg" alt="Меню" class="menu-img"></div>
+          </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="age-overlay" id="ageOverlay">
+    <div class="age-overlay-content">
+      <h3>🔞 Возрастная проверка</h3>
+      <p>Данный раздел содержит информацию об алкогольных напитках и доступен только лицам, достигшим 18 лет.</p>
+      <button id="confirmAgeBtn">Мне есть 18 лет</button>
+    </div>
+  </div>
+    </div>
+  
+</div>
+  </section>
+
+  <section id="promos" class="promos-section">
+  <h2>Актуальные акции</h2>
+  <div class="promos-grid">
+    <div class="promo-card promo-club-card">
+      <div class="promo-overlay">
+        <h3>💳 Клубная карта</h3>
+        <p>Накапливайте бонусы с каждой покупкой! Чем больше визитов, тем больше привилегий и скидок.</p>
+        <span class="promo-tag">Бонусы</span>
+      </div>
+    </div>
+    
+    <div class="promo-card promo-birthday-bonus">
+      <div class="promo-overlay">
+        <h3>🎂 В День рождения</h3>
+        <p>Получите +20% бонусов на клубную карту и комплимент от заведения. Отпразднуйте с нами!</p>
+        <span class="promo-tag">Подарок</span>
+      </div>
+    </div>
+    
+    <div class="promo-card promo-beer-platter">
+      <div class="promo-overlay">
+        <h3>🍺 Пивная тарелка + 4 бокала пива</h3>
+        <p>Закажите большую пивную тарелку и получите 4 бокала пива в подарок (BK лагер, weizen, англ.эль на выбор).</p>
+        <span class="promo-tag">Выгодно</span>
+      </div>
+    </div>
+    
+    <div class="promo-card promo-friends-discount">
+      <div class="promo-overlay">
+        <h3>🤝 Приведи друзей</h3>
+        <p>Скидка 40% на первые напитки для компании от 4-х человек. Отличный повод собраться вместе!</p>
+        <span class="promo-tag">Скидка 40%</span>
+      </div>
+    </div>
+    
+    <div class="promo-card promo-board-games">
+      <div class="promo-overlay">
+        <h3>🎲 Настольные игры</h3>
+        <p>Вечер настольных игр для вашей компании. Отдыхайте и развлекайтесь вместе с нами!</p>
+        <span class="promo-tag">Развлечение</span>
+      </div>
+    </div>
+
+    <div class="promo-card promo-happy-hour">
+      <div class="promo-overlay">
+        <h3>🍻 Только в Счастливые часы</h3>
+        <p>При заказе бокала любого пива - порция сочных куриных крыльев в подарок! Идеальное дополнение к вашему напитку.</p>
+        <span class="promo-tag">Счастливые часы</span>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="banquets" class="banquets-section">
+  <h2>Организуйте незабываемый банкет</h2>
+  <p class="subtitle">Идеальное место для ваших торжеств: дни рождения, корпоративы, юбилеи и особенные вечера. Мы позаботимся о каждой детали, чтобы ваше событие стало ярким воспоминанием.</p>
+
+  <div class="banquets-features">
+      <div class="feature-card banquet-feature-bg banquet-feature-1">
+      <div class="banquet-feature-content-wrapper">
+        <h3><span class="icon">✨</span> Персональное меню</h3>
+        <p>Наш шеф-повар разработает уникальное меню, полностью соответствующее вашим вкусам и пожеланиям. От изысканных закусок до основных блюд и десертов — каждый гость останется доволен.</p>
+      </div> 
+   </div>
+  
+      <div class="feature-card banquet-feature-bg banquet-feature-2">
+      <div class="banquet-feature-content-wrapper">
+        <h3><span class="icon">🥂</span> Вместимость до 50 гостей</h3>
+        <p>Просторный и стильно оформленный зал идеально подходит для мероприятий любого формата — от уютных семейных ужинов до больших корпоративных вечеринок. Комфорт для каждого гостя гарантирован.</p>
+      </div>
+  </div>
+  
+      <div class="feature-card banquet-feature-bg banquet-feature-3">
+       <div class="banquet-feature-content-wrapper">
+        <h3><span class="icon">🗓️</span> Гибкие условия бронирования</h3>
+        <p>Мы предлагаем удобные условия бронирования и индивидуальный подход к каждому клиенту. Свяжитесь с нами, чтобы обсудить все детали и зарезервировать желаемую дату.</p>
+      </div>
+  </div>
+  
+  <a href="#reserve" class="btn">Забронировать дату</a>
+</section>
+
+  <section id="reserve" class="reserve-section">
+    <div style="display:flex; justify-content:space-between; gap:2rem; max-width:1200px; margin:0 auto; flex-wrap:wrap; align-items: flex-start;">
+
+      <!-- Левый блок: Контакты -->
+      <div style="flex:1; min-width:280px;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color:#eee; margin-top: 0;">Связь с нами</h3>
+        <p>Для бронирования, отзывов, пожеланий и связи с администрацией — пишите в бот:</p>
+        <p style="margin-bottom: 0.5rem;">
+          <img src="img/qr.png" alt="Telegram QR" style="width:150px; display:block; margin-bottom:0.3rem;">
+          <a href="https://t.me/BrewKitchen4k3_bot" target="_blank" style="color:#f39c12; font-weight:bold; text-decoration:none;">Наш Telegram-бот</a>
+        </p>
+        <p><strong>Телефон:</strong> <a href="tel:+79295988226" style="color:#f39c12; text-decoration:none;">+7 (929) 598-82-26</a></p>
+        <p><strong>Email:</strong> <a href="mailto:info@gastrobar.ru" style="color:#f39c12; text-decoration:none;">info@gastrobar.ru</a></p>
+      </div>
+
+      <!-- Центр: форма бронирования -->
+      <div style="flex:1; min-width:280px;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color:#eee; margin-top: 0;">Форма бронирования</h3>
+        <form id="reserveForm" action="https://formspree.io/f/xwpnbolz" method="POST">
+          <input type="text" name="name" placeholder="Ваше имя" required>
+          <input type="tel" name="phone" placeholder="Телефон" required>
+          <input type="date" name="date" required>
+          <input type="number" name="guests" placeholder="Количество гостей" min="1" max="55" required>
+
+          <div class="radio-group">
+            <p style="font-weight: bold; color:#eee;">Как подтвердить бронь?</p>
+            <label style="display: block; color:#eee; margin-bottom: 0.2rem;"><input type="radio" name="confirm" value="whatsapp" style="margin-right: 8px;"> Подтвердить через WhatsApp</label>
+            <label style="display: block; color:#eee;"><input type="radio" name="confirm" value="call" style="margin-right: 8px;"> Перезвонить</label>
+          </div>
+
+          <textarea name="comment" placeholder="Комментарии"></textarea>
+          <button type="submit">Забронировать</button>
+        </form>
+      </div>
+
+      <!-- Правый блок: Яндекс.Карта -->
+      <div style="flex:1; min-width:280px;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color:#eee; margin-top: 0;">Мы на карте</h3>
+        <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=116123320570" width="100%" height="300" frameborder="0" style="border-radius:8px;"></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Гастробар BREWKITCHEN. Все права защищены.
+  </footer>
+
+  <script>
+    // === TELEGRAM CONFIG ===
+    const TELEGRAM_BOT_TOKEN = "8094072010:AAH2Wtqedk7L3t7Gj2iQlUFaPyXggTW1SGs";
+    const CHAT_ID = "418419726";
+
+    // Обработка формы бронирования
+    document.getElementById("reserveForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+
+      const message = `📩 Новое бронирование!%0AИмя: ${data.get("name")}%0AТелефон: ${data.get("phone")}%0AДата: ${data.get("date")}%0AКоличество гостей: ${data.get("guests")}%0AСпособ подтверждения: ${data.get("confirm")}%0AКомментарий: ${data.get("comment")}`;
+
+      try {
+        // Отправка в Telegram
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${message}`);
+
+        // Отправка в Formspree (почта)
+        await fetch(form.action, {
+          method: "POST",
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        alert("Заявка отправлена! Мы свяжемся с вами.");
+        form.reset();
+      } catch (error) {
+        console.error('Ошибка отправки:', error);
+        alert("Произошла ошибка при отправке заявки. Попробуйте позже.");
+      }
+    });
+
+    // Инициализация Swiper
+    let swiper2, swiper3;
+
+    function initSwipers() {
+      if (swiper2) swiper2.destroy();
+      if (swiper3) swiper3.destroy();
+
+      swiper2 = new Swiper('.swiper-cat2', {
+        slidesPerView: 1,
+        spaceBetween: 15,
+        navigation: {
+          nextEl: '.swiper-cat2 .swiper-button-next',
+          prevEl: '.swiper-cat2 .swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-cat2 .swiper-pagination',
+          clickable: true,
+        },
+      });
+
+      swiper3 = new Swiper('.swiper-cat3', {
+        slidesPerView: 1,
+        spaceBetween: 15,
+        navigation: {
+          nextEl: '.swiper-cat3 .swiper-button-next',
+          prevEl: '.swiper-cat3 .swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-cat3 .swiper-pagination',
+          clickable: true,
+        },
+      });
+    }
+
+    // Обработка hover эффектов для изображений
+    function setupImageHovers() {
+      document.querySelectorAll('.menu-img').forEach(img => {
+        img.addEventListener('mouseenter', () => {
+          const slide = img.closest('.swiper-slide');
+          if (slide) {
+            slide.classList.add('hovered');
+          }
+        });
+
+        img.addEventListener('mouseleave', () => {
+          const slide = img.closest('.swiper-slide');
+          if (slide) {
+            slide.classList.remove('hovered');
+          }
+        });
+      });
+    }
+
+    // Обработка табов
+    function setupTabs() {
+      const tabButtons = document.querySelectorAll('#menu-tabs .tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Снимаем активность со всех табов
+          tabButtons.forEach(b => {
+            b.classList.remove('active');
+            b.style.background = '#444';
+            b.style.color = '#eee';
+          });
+          tabContents.forEach(tc => tc.classList.remove('active'));
+
+          // Активируем текущий таб
+          btn.classList.add('active');
+          btn.style.background = '#f39c12';
+          btn.style.color = '#111';
+          
+          const targetTab = document.getElementById(btn.dataset.tab);
+          targetTab.classList.add('active');
+
+          // Если выбрана барная карта - показываем возрастную проверку
+          if (btn.dataset.tab === 'cat3') {
+            showAgeVerification();
+          }
+        });
+      });
+    }
+
+    // Функция показа возрастной проверки
+    function showAgeVerification() {
+      const ageOverlay = document.getElementById('ageOverlay');
+      const cat3 = document.getElementById('cat3');
+      
+      if (ageOverlay && cat3) {
+        ageOverlay.style.display = 'flex';
+        cat3.classList.add('blurred');
+      }
+    }
+
+    // Функция скрытия возрастной проверки
+    function hideAgeVerification() {
+      const ageOverlay = document.getElementById('ageOverlay');
+      const cat3 = document.getElementById('cat3');
+      
+      if (ageOverlay && cat3) {
+        ageOverlay.style.display = 'none';
+        cat3.classList.remove('blurred');
+      }
+    }
+
+    // Обработчик кнопки подтверждения возраста
+    function setupAgeConfirmation() {
+      const confirmBtn = document.getElementById('confirmAgeBtn');
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', hideAgeVerification);
+      }
+    }
+
+    // Инициализация всех компонентов
+    document.addEventListener('DOMContentLoaded', () => {
+      setupTabs();
+      initSwipers();
+      setupImageHovers();
+      setupAgeConfirmation();
+      
+      // Проверяем, активна ли барная карта при загрузке
+      const activeTab = document.querySelector('#menu-tabs .tab-btn.active');
+      if (activeTab && activeTab.dataset.tab === 'cat3') {
+        showAgeVerification();
+      }
+    });
+  </script>
+</body>
+</html>
