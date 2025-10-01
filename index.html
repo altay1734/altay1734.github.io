@@ -899,80 +899,193 @@
 /* --- КОНЕЦ БЛОКА СТИЛЕЙ СЕКЦИИ "БАНКЕТЫ" --- */
 
     /* --- Медиа-запросы для адаптивности --- */
-    @media (max-width: 768px) {
-        header {
-            gap: 1rem;
-            padding: 0.8rem;
-        }
-
-        header a {
-            font-size: 0.9rem;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-        }
-
-        .promos-section h2,
-        .menu-section h2,
-        .banquets-section h2 {
-            font-size: 2.5rem;
-        }
-
-        .banquets-section .subtitle {
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .feature-card {
-            min-width: unset;
-            max-width: 90%; /* Позволит карточкам занимать почти всю ширину на мобильных */
-        }
-
-        .promo-card {
-            height: 300px; /* Немного уменьшим высоту карточек акций на мобильных */
-        }
-
-        .promo-overlay h3 {
-            font-size: clamp(1.3rem, 5vw, 1.8rem);
-        }
-
-        .promo-overlay p {
-            font-size: clamp(0.85rem, 3vw, 1rem);
-        }
-
-        .promo-tag {
-            font-size: clamp(0.7rem, 2.5vw, 0.9rem);
-        }
-
-        #menu-tabs {
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .tab-btn {
-            font-size: 0.9rem;
-            padding: 0.6rem 1.2rem;
-        }
-
-        .reserve-section h3 {
-            font-size: 1.5rem;
-        }
-
-        .reserve-section p,
-        .reserve-section label {
-            font-size: 0.95rem;
-        }
+@media (max-width: 768px) {
+    header {
+        gap: 0.5rem;
+        padding: 0.8rem 0.5rem;
+        flex-wrap: wrap;
     }
+
+    header a {
+        font-size: 0.75rem;
+        padding: 0.3rem;
+    }
+
+    section {
+        padding: 6rem 1rem 3rem 1rem;
+    }
+
+    .hero {
+        padding-top: 8rem;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .promos-section h2,
+    .menu-section h2,
+    .banquets-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .banquets-section {
+        padding: 4rem 1rem;
+    }
+
+    .banquets-section .subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+
+    .banquets-features {
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .feature-card {
+        min-width: unset;
+        max-width: 100%;
+        padding: 1.5rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.2rem;
+        gap: 10px;
+    }
+
+    .feature-card p {
+        font-size: 0.9rem;
+    }
+
+    .feature-card .icon {
+        font-size: 1.5rem;
+    }
+
+    .banquet-feature-content-wrapper {
+        padding: 1.5rem;
+    }
+
+    .banquet-feature-content-wrapper h3 {
+        font-size: 1.2rem;
+    }
+
+    .banquet-feature-content-wrapper p {
+        font-size: 0.9rem;
+    }
+
+    .promo-card {
+        height: 280px;
+    }
+
+    .promo-overlay {
+        padding: 1rem;
+    }
+
+    .promo-overlay h3 {
+        font-size: 1.2rem;
+    }
+
+    .promo-overlay p {
+        font-size: 0.85rem;
+    }
+
+    .promo-tag {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    #menu-tabs {
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .menu-img:hover {
+        transform: scale(1.2);
+    }
+
+    .reserve-section {
+        padding: 4rem 1rem;
+    }
+
+    .reserve-section h3 {
+        font-size: 1.3rem;
+    }
+
+    .reserve-section p,
+    .reserve-section label {
+        font-size: 0.9rem;
+    }
+
+    form {
+        max-width: 100%;
+    }
+
+    input, textarea {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+    }
+
+    button[type="submit"] {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+}
+
+/* Дополнительный брейкпоинт для очень маленьких экранов */
+@media (max-width: 480px) {
+    header a {
+        font-size: 0.65rem;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .promos-section h2,
+    .menu-section h2,
+    .banquets-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .promo-card {
+        height: 250px;
+    }
+
+    .feature-card h3 {
+        font-size: 1.1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .banquet-feature-content-wrapper h3 {
+        font-size: 1.1rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 </style>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
