@@ -392,15 +392,17 @@
 
     /* Стили для изображений меню */
     .menu-img {
-        width: 100%;
-        border-radius: 15px;
-        cursor: pointer;
-        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        user-select: none;
-        position: relative;
-        z-index: 1;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Тень по умолчанию */
-    }
+    width: 100%;
+    max-width: 100%;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    user-select: none;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    display: block;
+}
 
     .menu-img:hover {
         transform: scale(1.6); /* Менее агрессивное, но заметное увеличение */
@@ -566,14 +568,14 @@
     }
 
     .promos-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2.5rem;
-        max-width: 1200px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
 
     .promo-card {
         height: 350px;
@@ -899,24 +901,45 @@
 /* --- КОНЕЦ БЛОКА СТИЛЕЙ СЕКЦИИ "БАНКЕТЫ" --- */
 
     /* --- Медиа-запросы для адаптивности --- */
+/* --- Медиа-запросы для адаптивности --- */
+@media (max-width: 1024px) {
+    .banquets-features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature-card {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .banquet-feature-bg {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
 @media (max-width: 768px) {
     header {
         gap: 0.5rem;
         padding: 0.8rem 0.5rem;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     header a {
         font-size: 0.75rem;
-        padding: 0.3rem;
+        padding: 0.3rem 0.5rem;
     }
 
     section {
         padding: 6rem 1rem 3rem 1rem;
+        min-height: auto;
     }
 
     .hero {
         padding-top: 8rem;
+        min-height: 80vh;
     }
 
     .hero h1 {
@@ -934,6 +957,10 @@
         font-size: 0.9rem;
     }
 
+    .promos-section {
+        padding: 3rem 1rem;
+    }
+
     .promos-section h2,
     .menu-section h2,
     .banquets-section h2 {
@@ -941,53 +968,16 @@
         margin-bottom: 2rem;
     }
 
-    .banquets-section {
-        padding: 4rem 1rem;
-    }
-
-    .banquets-section .subtitle {
-        font-size: 0.95rem;
-        margin-bottom: 2rem;
-    }
-
-    .banquets-features {
+    .promos-grid {
+        grid-template-columns: 1fr;
         gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .feature-card {
-        min-width: unset;
-        max-width: 100%;
-        padding: 1.5rem;
-    }
-
-    .feature-card h3 {
-        font-size: 1.2rem;
-        gap: 10px;
-    }
-
-    .feature-card p {
-        font-size: 0.9rem;
-    }
-
-    .feature-card .icon {
-        font-size: 1.5rem;
-    }
-
-    .banquet-feature-content-wrapper {
-        padding: 1.5rem;
-    }
-
-    .banquet-feature-content-wrapper h3 {
-        font-size: 1.2rem;
-    }
-
-    .banquet-feature-content-wrapper p {
-        font-size: 0.9rem;
+        padding: 0;
     }
 
     .promo-card {
         height: 280px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .promo-overlay {
@@ -1007,9 +997,14 @@
         padding: 0.4rem 0.8rem;
     }
 
+    .menu-section {
+        padding: 4rem 1rem;
+    }
+
     #menu-tabs {
         gap: 0.5rem;
         margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
     }
 
     .tab-btn {
@@ -1017,8 +1012,100 @@
         padding: 0.5rem 1rem;
     }
 
+    .tab-content {
+        max-width: 100% !important;
+        padding: 0;
+    }
+
+    #cat1 .grid {
+        grid-template-columns: 1fr !important;
+        padding: 0;
+    }
+
+    #cat1 .menu-img {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .swiper {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .swiper-slide {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    .menu-img {
+        max-width: 100%;
+        height: auto;
+    }
+
     .menu-img:hover {
-        transform: scale(1.2);
+        transform: scale(1.1);
+    }
+
+    .cat3-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .banquets-section {
+        padding: 4rem 1rem;
+    }
+
+    .banquets-section .subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+
+    .banquets-features {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    .feature-card {
+        min-width: unset;
+        max-width: 100%;
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.2rem;
+        gap: 10px;
+    }
+
+    .feature-card p {
+        font-size: 0.9rem;
+    }
+
+    .feature-card .icon {
+        font-size: 1.5rem;
+    }
+
+    .banquet-feature-bg {
+        min-height: 250px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .banquet-feature-content-wrapper {
+        padding: 1.5rem;
+    }
+
+    .banquet-feature-content-wrapper h3 {
+        font-size: 1.2rem;
+    }
+
+    .banquet-feature-content-wrapper p {
+        font-size: 0.9rem;
     }
 
     .reserve-section {
@@ -1047,8 +1134,29 @@
         padding: 0.8rem;
         font-size: 1rem;
     }
+
+    .reserve-section iframe {
+        min-height: 250px;
+    }
 }
 
+/* Дополнительные стили для Swiper на мобильных */
+@media (max-width: 768px) {
+    .swiper-wrapper {
+        width: 100%;
+    }
+    
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 30px;
+        height: 30px;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 1rem !important;
+    }
+}
 /* Дополнительный брейкпоинт для очень маленьких экранов */
 @media (max-width: 480px) {
     header a {
@@ -1471,4 +1579,5 @@
     });
   </script>
 </body>
+
 </html>
